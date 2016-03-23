@@ -127,7 +127,7 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
     }
 
     public void mpPause(){
-        mMediaPlayer.stop();
+        mMediaPlayer.pause();
     }
 
     public void mpResume(){
@@ -177,5 +177,4 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
         mScreenHeight = height;
         mScreenWidth = width;
     }
-
 }
