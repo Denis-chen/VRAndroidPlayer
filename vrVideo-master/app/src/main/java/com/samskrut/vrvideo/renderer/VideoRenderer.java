@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.samskrut.vrvideo.listener.RenderChangedCheckListener;
+
 import org.rajawali3d.cardboard.RajawaliCardboardRenderer;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.textures.ATexture;
@@ -16,7 +18,7 @@ import org.rajawali3d.primitives.Sphere;
 
 import java.io.File;
 
-public class VideoRenderer extends RajawaliCardboardRenderer {
+public class VideoRenderer extends RajawaliCardboardRenderer{
 
     // Context mContext;
     Activity mainActivity;
@@ -29,6 +31,8 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
     private int mScreenWidth;
     private int mScreenHeight;
     private static final String TAG = "VideoRenderer";
+
+    private RenderChangedCheckListener renderChangedCheckListener;
 
     public VideoRenderer(Activity activity, String _path) {
         super(activity.getApplicationContext());
@@ -93,10 +97,19 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
 
     }
 
+    public void setListener(RenderChangedCheckListener renderChangedCheckListener){
+        this.renderChangedCheckListener = renderChangedCheckListener;
+    }
+
+    public void currentTime(int time){
+        renderChangedCheckListener.onTime(time);
+    }
+
     @Override
     protected void onRender(long ellapsedRealtime, double deltaTime) {
         super.onRender(ellapsedRealtime, deltaTime);
         mVideoTexture.update();
+        currentTime(mMediaPlayer.getCurrentPosition());
     }
 
     @Override
@@ -120,18 +133,6 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
     public void mpResume(){
         mMediaPlayer.start();
     }
-
-//    public int getDuration(){
-//        return mMediaPlayer.getDuration();
-//    }
-//
-//    public MediaPlayer getMp(){
-//        return mMediaPlayer;
-//    }
-
-//    public int getCurrentPosition(){
-//        return mMediaPlayer.getCurrentPosition();
-//    }
 
     @Override
     public void onRenderSurfaceDestroyed(SurfaceTexture surfaceTexture) {
@@ -177,7 +178,4 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
         mScreenWidth = width;
     }
 
-    public void seekTo(int progress) {
-
-    }
 }

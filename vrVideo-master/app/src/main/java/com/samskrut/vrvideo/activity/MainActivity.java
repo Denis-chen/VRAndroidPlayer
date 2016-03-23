@@ -12,12 +12,13 @@ import android.widget.TextView;
 
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.samskrut.vrvideo.R;
+import com.samskrut.vrvideo.listener.RenderChangedCheckListener;
 import com.samskrut.vrvideo.renderer.VideoRenderer;
 
 import org.rajawali3d.cardboard.RajawaliCardboardView;
 
 
-public class MainActivity extends CardboardActivity{
+public class MainActivity extends CardboardActivity implements RenderChangedCheckListener{
 
     private RajawaliCardboardView view;
     private VideoRenderer renderer;
@@ -56,6 +57,8 @@ public class MainActivity extends CardboardActivity{
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         finalTx = (TextView) findViewById(R.id.finalTime);
         startTx = (TextView) findViewById(R.id.startTime);
+
+        renderer.setListener(this);
 
 //        mediaPlayer = renderer.getMp();
 
@@ -150,5 +153,10 @@ public class MainActivity extends CardboardActivity{
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onTime(int time) {
+        Log.i(TAG, String.valueOf(time));
     }
 }
