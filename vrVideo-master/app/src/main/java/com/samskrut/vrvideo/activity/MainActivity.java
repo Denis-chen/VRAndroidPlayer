@@ -17,6 +17,8 @@ import com.samskrut.vrvideo.renderer.VideoRenderer;
 
 import org.rajawali3d.cardboard.RajawaliCardboardView;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class MainActivity extends CardboardActivity implements RenderChangedCheckListener{
 
@@ -25,8 +27,8 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     private final static String TAG = "MainActivity";
     private boolean vrCheck = false;
     private boolean opCheck = false;
-    private double finalTime;
-    private double startTime;
+    private int finalTime = 0;
+    private int startTime = 0;
 
     private Button operateBtn, vrModeBtn;
     private SeekBar seekBar;
@@ -44,6 +46,7 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
         renderer = new VideoRenderer(MainActivity.this, getIntent().getExtras().getString("fpath"));
         view.setRenderer(renderer);
         view.setSurfaceRenderer(renderer);
+        view.setSettingsButtonEnabled(false);
 
         mediaControllerInit();
     }
@@ -62,26 +65,8 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
 
 //        mediaPlayer = renderer.getMp();
 
-//        finalTime = renderer.mMediaPlayer.getDuration();
-//        startTime = renderer.mMediaPlayer.getCurrentPosition();
-//        finalTime = 100;
-//        startTime = 0;
-//
-//        seekBar.setMax((int) finalTime);
-//
-//        finalTx.setText(String.format("%d min, %d sec",
-//                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
-//                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-//                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)))
-//        );
-//
-//        startTx.setText(String.format("%d min, %d sec",
-//                        TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-//                        TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-//                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)))
-//        );
-//        handler = new Handler();
-//        handler.postDelayed(UpdateTime, 100);
+        handler = new Handler();
+        handler.postDelayed(UpdateTime, 100);
 
         operateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,36 +96,40 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
                 }
             }
         });
-//
-//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if (fromUser)
-//                    renderer.seekTo(progress);
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-//
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                    renderer.seekTo(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
-//    private Runnable UpdateTime = new Runnable() {
-//        @Override
-//        public void run() {
-//            startTime = renderer.getCurrentPosition();
-//            seekBar.setProgress((int) startTime);
-//            handler.postDelayed(this, 100);
-//        }
-//    };
+    private Runnable UpdateTime = new Runnable() {
+        @Override
+        public void run() {
+            seekBar.setProgress(startTime);
+            startTx.setText(TimeUnit.MILLISECONDS.toMinutes((long) startTime) + " min " +
+                            (TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)) + " sec ")
+            );
+            finalTx.setText(TimeUnit.MILLISECONDS.toMinutes((long) finalTime) + " min " +
+                            (TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)) + " sec ")
+            );
+            handler.postDelayed(this, 100);
+        }
+    };
 
 
     @Override
@@ -158,5 +147,12 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     @Override
     public void onTime(int time) {
         Log.i(TAG, String.valueOf(time));
+        startTime = time;
+    }
+
+    @Override
+    public void setFinalTime(int time) {
+        finalTime = time;
+        seekBar.setMax(finalTime);
     }
 }

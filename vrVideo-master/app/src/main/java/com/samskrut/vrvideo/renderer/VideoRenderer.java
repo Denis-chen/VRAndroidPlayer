@@ -74,6 +74,7 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
 
         mMediaPlayer.start();
 
+        finalTime(mMediaPlayer.getDuration());
         //영상이 끝나면 액티비티 종료
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -94,7 +95,6 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
                 mainActivity.finish();
             }
         });
-
     }
 
     public void setListener(RenderChangedCheckListener renderChangedCheckListener){
@@ -103,6 +103,10 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
 
     public void currentTime(int time){
         renderChangedCheckListener.onTime(time);
+    }
+
+    public void finalTime(int time){
+        renderChangedCheckListener.setFinalTime(time);
     }
 
     @Override
@@ -176,5 +180,9 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
         super.onSurfaceChanged(width, height);
         mScreenHeight = height;
         mScreenWidth = width;
+    }
+
+    public void seekTo(int progress) {
+        mMediaPlayer.seekTo(progress);
     }
 }

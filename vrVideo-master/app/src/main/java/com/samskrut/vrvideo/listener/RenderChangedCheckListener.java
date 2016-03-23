@@ -5,4 +5,5 @@ package com.samskrut.vrvideo.listener;
  */
 public interface RenderChangedCheckListener {
     void onTime(int time);
+    void setFinalTime(int time);
 }
