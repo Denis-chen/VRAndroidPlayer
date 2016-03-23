@@ -8,4 +8,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>
-<!-- From: file:/Users/HSH/Documents/Project/vrVideo-master/app/src/main/res/menu/menu_splash.xml -->
+<!-- From: file:/Users/HSH/Documents/Project/VRAndroidPlayer/vrVideo-master/app/src/main/res/menu/menu_splash.xml -->

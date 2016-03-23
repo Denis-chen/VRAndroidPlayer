@@ -127,7 +127,6 @@ public class ListActivity extends AppCompatActivity {
             dialog.setIndeterminate(true);
             dialog.setCancelable(false);
             dialog.show();
-
         }
 
         @Override

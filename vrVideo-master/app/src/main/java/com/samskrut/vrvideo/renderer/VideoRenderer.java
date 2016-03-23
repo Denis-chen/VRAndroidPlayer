@@ -5,8 +5,7 @@ import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
-
-import com.samskrut.vrvideo.activity.MainActivity;
+import android.view.MotionEvent;
 
 import org.rajawali3d.cardboard.RajawaliCardboardRenderer;
 import org.rajawali3d.materials.Material;
@@ -20,16 +19,22 @@ import java.io.File;
 public class VideoRenderer extends RajawaliCardboardRenderer {
 
     // Context mContext;
-    MainActivity mainActivity;
+    Activity mainActivity;
     String videopath;
     private MediaPlayer mMediaPlayer;
     private StreamingTexture mVideoTexture;
+
+    private float angleX;
+    private float angleY;
+    private int mScreenWidth;
+    private int mScreenHeight;
+    private static final String TAG = "VideoRenderer";
 
     public VideoRenderer(Activity activity, String _path) {
         super(activity.getApplicationContext());
 
         videopath = _path;
-        mainActivity = (MainActivity) activity;
+        mainActivity = activity;
     }
 
     @Override
@@ -64,12 +69,14 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
         getCurrentCamera().setFieldOfView(75);
 
         mMediaPlayer.start();
+
         //영상이 끝나면 액티비티 종료
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 Log.d("bis", "video completed");
                 mp.stop();
+                mp.release();
                 mainActivity.finish();
             }
         });
@@ -79,6 +86,7 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
             public void onSeekComplete(MediaPlayer mp) {
                 Log.d("bis", "video seek completed");
                 mp.stop();
+                mp.release();
                 mainActivity.finish();
             }
         });
@@ -105,10 +113,71 @@ public class VideoRenderer extends RajawaliCardboardRenderer {
             mMediaPlayer.start();
     }
 
+    public void mpPause(){
+        mMediaPlayer.stop();
+    }
+
+    public void mpResume(){
+        mMediaPlayer.start();
+    }
+
+//    public int getDuration(){
+//        return mMediaPlayer.getDuration();
+//    }
+//
+//    public MediaPlayer getMp(){
+//        return mMediaPlayer;
+//    }
+
+//    public int getCurrentPosition(){
+//        return mMediaPlayer.getCurrentPosition();
+//    }
+
     @Override
     public void onRenderSurfaceDestroyed(SurfaceTexture surfaceTexture) {
         super.onRenderSurfaceDestroyed(surfaceTexture);
         mMediaPlayer.stop();
         mMediaPlayer.release();
+    }
+
+    @Override
+    public void onTouchEvent(MotionEvent event) {
+        Log.e(TAG, "onTouchEvent");
+    }
+
+    @Override
+    public float getScreenHeight() {
+        return mScreenHeight;
+    }
+
+    @Override
+    public float getAngleX() {
+        return angleX;
+    }
+
+    @Override
+    public float getAngleY() {
+        return angleY;
+    }
+
+    @Override
+    public void setAngleX(float x) {
+        angleX = x;
+    }
+
+    @Override
+    public void setAngleY(float y) {
+        angleY = y;
+    }
+
+    @Override
+    public void onSurfaceChanged(int width, int height) {
+        super.onSurfaceChanged(width, height);
+        mScreenHeight = height;
+        mScreenWidth = width;
+    }
+
+    public void seekTo(int progress) {
+
     }
 }

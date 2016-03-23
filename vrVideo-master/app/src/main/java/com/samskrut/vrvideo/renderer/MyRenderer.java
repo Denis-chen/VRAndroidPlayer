@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import org.rajawali3d.cardboard.RajawaliCardboardRenderer;
 import org.rajawali3d.materials.Material;
@@ -79,5 +80,35 @@ public class MyRenderer extends RajawaliCardboardRenderer {
         getCurrentScene().addChild(sphere);
         getCurrentCamera().setPosition(Vector3.ZERO);
         getCurrentCamera().setFieldOfView(75);
+    }
+
+    @Override
+    public void onTouchEvent(MotionEvent event) {
+
+    }
+
+    @Override
+    public float getScreenHeight() {
+        return 0;
+    }
+
+    @Override
+    public float getAngleX() {
+        return 0;
+    }
+
+    @Override
+    public float getAngleY() {
+        return 0;
+    }
+
+    @Override
+    public void setAngleX(float x) {
+
+    }
+
+    @Override
+    public void setAngleY(float y) {
+
     }
 }

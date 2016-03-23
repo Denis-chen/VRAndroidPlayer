@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/HSH/Documents/Project/vrVideo-master/rajawali/src/main/res/values/attrs.xml -->
+    <!-- From: file:/Users/HSH/Documents/Project/VRAndroidPlayer/vrVideo-master/rajawali/src/main/res/values/attrs.xml -->
     <eat-comment/>
     <attr format="enum" name="antiAliasingType">
         <enum name="multisample" value="1"/>
