@@ -12,17 +12,17 @@ import android.widget.TextView;
 
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 import com.samskrut.vrvideo.R;
+import com.samskrut.vrvideo.listener.CardBoardTouchEventListener;
 import com.samskrut.vrvideo.listener.RenderChangedCheckListener;
 import com.samskrut.vrvideo.renderer.VideoRenderer;
-
-import org.rajawali3d.cardboard.RajawaliCardboardView;
+import com.samskrut.vrvideo.view.MyCardboardView;
 
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends CardboardActivity implements RenderChangedCheckListener{
+public class MainActivity extends CardboardActivity implements RenderChangedCheckListener, CardBoardTouchEventListener{
 
-    private RajawaliCardboardView view;
+    private MyCardboardView view;
     private VideoRenderer renderer;
     private final static String TAG = "MainActivity";
     private boolean vrCheck = false;
@@ -34,12 +34,14 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     private SeekBar seekBar;
     private TextView startTx, finalTx;
 
+    private View mediaController;
     private Handler handler;
+    private boolean touchCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = new RajawaliCardboardView(MainActivity.this);
+        view = new MyCardboardView(MainActivity.this);
         setContentView(view);
         view.setVRModeEnabled(false);
         setCardboardView(view);
@@ -52,22 +54,37 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     }
 
     private void mediaControllerInit() {
-        View mediaController = View.inflate(this, R.layout.media_controller, null);
-        addContentView(mediaController, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        initMediaControllerLayout();
 
+        initViews();
+
+        //to get currentPosition & duration
+        renderer.setListener(this);
+
+        //to get touchEvent
+        view.setListener(this);
+
+        //to update currentPosition on seekbar
+        handler = new Handler();
+        handler.postDelayed(UpdateTime, 100);
+
+        initOnclickListener();
+    }
+
+    private void initMediaControllerLayout() {
+        mediaController = View.inflate(this, R.layout.media_controller, null);
+        addContentView(mediaController, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    private void initViews() {
         operateBtn = (Button) findViewById(R.id.operateBtn);
         vrModeBtn = (Button) findViewById(R.id.vrModeBtn);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         finalTx = (TextView) findViewById(R.id.finalTime);
         startTx = (TextView) findViewById(R.id.startTime);
+    }
 
-        renderer.setListener(this);
-
-//        mediaPlayer = renderer.getMp();
-
-        handler = new Handler();
-        handler.postDelayed(UpdateTime, 100);
-
+    private void initOnclickListener() {
         operateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,15 +122,11 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
                     seekBar.setProgress(progress);
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
@@ -121,31 +134,19 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     private Runnable UpdateTime = new Runnable() {
         @Override
         public void run() {
+            int startMin = (int) TimeUnit.MILLISECONDS.toMinutes((long) startTime);
+            int startSec = (int) TimeUnit.MILLISECONDS.toSeconds((long) startTime);
+
+            int finalMin = (int) TimeUnit.MILLISECONDS.toMinutes((long) finalTime);
+            int finalSec = (int) TimeUnit.MILLISECONDS.toSeconds((long) finalTime);
+
             seekBar.setProgress(startTime);
-            startTx.setText(TimeUnit.MILLISECONDS.toMinutes((long) startTime) + " min " +
-                            (TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) startTime)) + " sec ")
-            );
-            finalTx.setText(TimeUnit.MILLISECONDS.toMinutes((long) finalTime) + " min " +
-                            (TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime)) + " sec ")
-            );
+            startTx.setText(startMin + " min " + (startSec - startMin) + " sec ");
+            finalTx.setText(finalMin + " min " + (finalSec - finalMin) + " sec ");
+
             handler.postDelayed(this, 100);
         }
     };
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e(TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e(TAG, "onDestroy");
-    }
 
     @Override
     public void onTime(int time) {
@@ -157,5 +158,17 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
     public void setFinalTime(int time) {
         finalTime = time;
         seekBar.setMax(finalTime);
+    }
+
+    @Override
+    public void onTouch() {
+        if(touchCheck == false){
+            mediaController.setVisibility(View.INVISIBLE);
+            touchCheck = true;
+        }
+        else{
+            mediaController.setVisibility(View.VISIBLE);
+            touchCheck = false;
+        }
     }
 }
