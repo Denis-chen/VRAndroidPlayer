@@ -86,15 +86,15 @@ public class VideoRenderer extends RajawaliCardboardRenderer{
             }
         });
         //영상이 끝나도록 유도되면 액티비티 종료
-        mMediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
-            @Override
-            public void onSeekComplete(MediaPlayer mp) {
-                Log.d("bis", "video seek completed");
-                mp.stop();
-                mp.release();
-                mainActivity.finish();
-            }
-        });
+//        mMediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+//            @Override
+//            public void onSeekComplete(MediaPlayer mp) {
+//                Log.d("bis", "video seek completed");
+//                mp.stop();
+//                mp.release();
+//                mainActivity.finish();
+//            }
+//        });
     }
 
     public void setListener(RenderChangedCheckListener renderChangedCheckListener){

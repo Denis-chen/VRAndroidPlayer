@@ -100,7 +100,10 @@ public class MainActivity extends CardboardActivity implements RenderChangedChec
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                    renderer.seekTo(progress);
+                if(fromUser){
+                    renderer.seekTo(progress);
+                    seekBar.setProgress(progress);
+                }
             }
 
             @Override
