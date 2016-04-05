@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-
 import com.neointernet.neo360.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -25,5 +24,4 @@ public class SplashActivity extends AppCompatActivity {
         };
         h.postDelayed(r, 2000);
     }
-
 }

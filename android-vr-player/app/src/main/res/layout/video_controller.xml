@@ -6,7 +6,8 @@
     android:weightSum="1">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_controller_top">
         <Button
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
@@ -29,33 +30,56 @@
             android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/stop"/>
+            android:src="@drawable/stop" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_above="@+id/playBtn"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:weightSum="5"
+        android:background="@drawable/video_controller_bottom">
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:id="@+id/currentTimeTextView"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/videoSeekBar"
+            android:indeterminate="false"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="5"/>
 
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/videoSeekBar"
-        android:indeterminate="false"
-        android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:id="@+id/finalTimeTextView"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
 
-    <ImageButton
-        android:id="@+id/vrBtn"
-        android:layout_width="48dp"
-        android:layout_height="24dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/vr_mode"
-        android:layout_weight="5"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"></ImageButton>
+        <ImageButton
+            android:id="@+id/vrBtn"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/vr_mode"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
