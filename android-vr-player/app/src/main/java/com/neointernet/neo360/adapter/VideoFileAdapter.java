@@ -1,5 +1,7 @@
 package com.neointernet.neo360.adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
@@ -31,6 +33,9 @@ public class VideoFileAdapter extends RecyclerView.Adapter<VideoFileAdapter.View
         this.listener = listener;
         videos = new ArrayList<>();
         videos.addAll(videoModels);
+    }
+
+    public VideoFileAdapter(Context applicationContext, ArrayList<String> filenames, ArrayList<String> filepaths, ArrayList<Bitmap> al) {
     }
 
     @Override
