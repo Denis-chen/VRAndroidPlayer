@@ -21,8 +21,6 @@ import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Sphere;
 
-import java.io.File;
-
 public class VideoRenderer extends RajawaliCardboardRenderer implements CardboardEventListener {
 
 
@@ -45,7 +43,6 @@ public class VideoRenderer extends RajawaliCardboardRenderer implements Cardboar
     private Quaternion rotateQuaternionX = new Quaternion();
     private Quaternion rotateQuaternionY = new Quaternion();
 
-
     private float angleX = 0;
     private float angleY = 0;
     private float angleZ = 0;
@@ -64,10 +61,10 @@ public class VideoRenderer extends RajawaliCardboardRenderer implements Cardboar
 
     @Override
     protected void initScene() {
-        File file = new File(videoPath);
-        Uri uri = Uri.fromFile(file);
-        Log.i("URI", uri.toString());
-        mediaPlayer = MediaPlayer.create(getContext(), uri);
+//        File file = new File(videoPath);
+//        Uri uri = Uri.fromFile(file);
+//        Log.i("URI", uri.toString());
+        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(videoPath));
         mediaPlayer.setLooping(true);
 
         streamingTexture = new StreamingTexture("texture", mediaPlayer);
@@ -128,7 +125,6 @@ public class VideoRenderer extends RajawaliCardboardRenderer implements Cardboar
 
     @Override
     public void onPause() {
-//        super.onPause();
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
@@ -136,7 +132,6 @@ public class VideoRenderer extends RajawaliCardboardRenderer implements Cardboar
 
     @Override
     public void onResume() {
-//        super.onResume();
         if (mediaPlayer != null) {
             mediaPlayer.start();
         }

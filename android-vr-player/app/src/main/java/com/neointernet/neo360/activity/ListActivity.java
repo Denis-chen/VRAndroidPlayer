@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String folderPath = Environment.getExternalStorageDirectory() + File.separator + "360Videos";
+    private String folderPath;
     private File folder;
     private ArrayList<File> fileArrayList;
     private FileObserver fileObserver;
@@ -31,18 +31,18 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private String PATH_TAG = "filepathLog";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        //폴더를 생성해주는 부분
         folderPath = Environment.getExternalStorageDirectory() + File.separator + "360Videos";
         folder = new File(folderPath);
-        Log.i("Folder", folder.toString());
-        Log.i("Folder", folder.getAbsolutePath().toString());
-        Log.i("Folder", folder.listFiles().toString());
+        Log.i(PATH_TAG, "ListActivity : " + folder.toString());
+        Log.i("Folder", "ListActivity : " + folder.getAbsolutePath().toString());
+        Log.i("Folder", "ListActivity : " + folder.listFiles().toString());
 
         fileArrayList = new ArrayList<>();
         setFileArray();
@@ -78,8 +78,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         File[] newFiles = folder.listFiles();
         fileArrayList.clear();
         for (File file : newFiles) {
-            File File = (File) file;
-            fileArrayList.add(File);
+            fileArrayList.add(file);
         }
     }
 

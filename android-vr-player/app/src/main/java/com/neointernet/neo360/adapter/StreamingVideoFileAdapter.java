@@ -15,31 +15,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.neointernet.neo360.R;
+import com.neointernet.neo360.model.Video;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-public class VideoFileAdapter extends RecyclerView.Adapter<VideoFileAdapter.ViewHolder> {
+public class StreamingVideoFileAdapter extends RecyclerView.Adapter<StreamingVideoFileAdapter.ViewHolder> {
 
-    private ArrayList<File> videos;
+    private ArrayList<Video> videos;
     private View.OnClickListener listener;
     private MediaPlayer mediaPlayer;
     private static final String TAG = "VideoFileAdapter";
+    private static final String URL = "http://lifejeju99.cafe24.com/";
 
-    public VideoFileAdapter(View.OnClickListener listener, Collection<File> videoModels) {
+
+    public StreamingVideoFileAdapter(View.OnClickListener listener, Collection<Video> videoModels) {
         this.listener = listener;
         videos = new ArrayList<>();
         videos.addAll(videoModels);
     }
 
-    public VideoFileAdapter(Context applicationContext, ArrayList<String> filenames, ArrayList<String> filepaths, ArrayList<Bitmap> al) {
+    public StreamingVideoFileAdapter(Context applicationContext, ArrayList<String> filenames, ArrayList<String> filepaths, ArrayList<Bitmap> al) {
     }
 
     @Override
-    public VideoFileAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public StreamingVideoFileAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_row, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -48,9 +50,9 @@ public class VideoFileAdapter extends RecyclerView.Adapter<VideoFileAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.cardView.setTag(getFile(position));
-        holder.imageView.setImageBitmap(ThumbnailUtils.createVideoThumbnail(getFile(position).getPath(), MediaStore.Video.Thumbnails.MINI_KIND));
-        holder.nameText.setText(getFile(position).getName());
+        holder.cardView.setTag(getVideo(position));
+        holder.imageView.setImageBitmap(ThumbnailUtils.createVideoThumbnail(getVideoPath(position), MediaStore.Video.Thumbnails.MINI_KIND));
+        holder.nameText.setText(getVideo(position).getName());
         holder.lengthText.setText(getVideoLength(position));
         holder.cardView.setOnClickListener(listener);
     }
@@ -58,7 +60,7 @@ public class VideoFileAdapter extends RecyclerView.Adapter<VideoFileAdapter.View
     private String getVideoLength(int position) {
         try {
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(getFilePath(position));
+            mediaPlayer.setDataSource(getVideoPath(position));
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,12 +82,16 @@ public class VideoFileAdapter extends RecyclerView.Adapter<VideoFileAdapter.View
         return videos.size();
     }
 
-    public File getFile(int position) {
+    public Video getVideo(int position) {
         return videos.get(position);
     }
 
-    public String getFilePath(int position) {
-        return videos.get(position).getPath();
+    public String getVideoPath(int position) {
+        return URL + videos.get(position).getName();
+    }
+
+    public String getVideoSize(int position){
+        return videos.get(position).getSize();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

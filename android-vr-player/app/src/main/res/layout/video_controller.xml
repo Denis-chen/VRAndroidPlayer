@@ -16,6 +16,17 @@
             android:text="BACK"
             android:textColor="#FFFFFF"/>
 
+        <Button
+            android:id="@+id/saveVideoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="SAVE"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -25,11 +36,12 @@
 
         <ImageButton
             android:id="@+id/playBtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:src="@drawable/stop" />
 
         <ImageView
@@ -72,8 +84,8 @@
 
         <ImageButton
             android:id="@+id/vrBtn"
-            android:layout_width="48dp"
-            android:layout_height="24dp"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/vr_mode"
