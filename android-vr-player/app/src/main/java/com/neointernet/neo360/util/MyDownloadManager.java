@@ -23,12 +23,11 @@ public class MyDownloadManager {
     private Long mDownloadQueueId; //다운로드 큐 아이디..
     private String mFileName; //파일다운로드 완료후...파일을 열기 위해 저장된 위치를 입력해둔다.
 
-    private String storagePath;
+    private static String storagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/temp/";
     private String TAG = "filepathLog";
 
     public MyDownloadManager(Context context) {
         this.context = context;
-        storagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/temp/";
     }
 
     public boolean downloadFile(String url) {
@@ -75,7 +74,7 @@ public class MyDownloadManager {
         return check;
     }
 
-    public String getStoragePath() {
+    public static String getStoragePath() {
         return storagePath;
     }
 }

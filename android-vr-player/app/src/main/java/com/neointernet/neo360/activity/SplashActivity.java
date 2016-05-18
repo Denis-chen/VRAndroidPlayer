@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.neointernet.neo360.R;
+import com.neointernet.neo360.util.MyDownloadManager;
 
 import java.io.File;
 
@@ -21,7 +21,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashActivity";
     private static final int MY_PERMISSION_REQUEST_STORAGE = 100;
-    private static final String cafeUrl = "http://lifejeju99.cafe24.com/videos/";
     private String PATH_TAG = "filepathLog";
 
     @Override
@@ -32,16 +31,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void writeFile() {
-        File storageDirectory = Environment.getExternalStorageDirectory();
-        File folder = new File(storageDirectory + File.separator + "360Videos");
-        Log.i(PATH_TAG, "SPLASH Activity : " + storageDirectory + File.separator + "360Videos");
-        File serverFolder = new File(cafeUrl + "test");
-        Log.i(TAG, cafeUrl);
-        if (!serverFolder.mkdirs()) {
-            Log.i(TAG, "폴더생성 실패");
-        } else {
-            Log.i(TAG, "폴더생성 성공");
-        }
+        String path = MyDownloadManager.getStoragePath();
+        File folder = new File(path);
+        Log.i(PATH_TAG, "SPLASH Activity : " + path);
         //folder 객체가 존재한다면
         if (folder.exists()) {
 

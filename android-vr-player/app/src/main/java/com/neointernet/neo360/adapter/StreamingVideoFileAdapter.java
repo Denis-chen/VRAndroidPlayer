@@ -1,7 +1,5 @@
 package com.neointernet.neo360.adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
@@ -15,33 +13,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.neointernet.neo360.R;
+import com.neointernet.neo360.fragment.VideoListFragment;
 import com.neointernet.neo360.model.Video;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 public class StreamingVideoFileAdapter extends RecyclerView.Adapter<StreamingVideoFileAdapter.ViewHolder> {
 
     private ArrayList<Video> videos;
-    private View.OnClickListener listener;
+    private VideoListFragment.OnListFragmentInteractionListener listener;
     private MediaPlayer mediaPlayer;
     private static final String TAG = "VideoFileAdapter";
     private static final String URL = "http://lifejeju99.cafe24.com/";
 
 
-    public StreamingVideoFileAdapter(View.OnClickListener listener, Collection<Video> videoModels) {
+    public StreamingVideoFileAdapter(VideoListFragment.OnListFragmentInteractionListener listener, ArrayList<Video> videoModels) {
         this.listener = listener;
-        videos = new ArrayList<>();
-        videos.addAll(videoModels);
-    }
-
-    public StreamingVideoFileAdapter(Context applicationContext, ArrayList<String> filenames, ArrayList<String> filepaths, ArrayList<Bitmap> al) {
+        videos = videoModels;
     }
 
     @Override
-    public StreamingVideoFileAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_row, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -49,12 +43,18 @@ public class StreamingVideoFileAdapter extends RecyclerView.Adapter<StreamingVid
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.video = getVideo(position);
         holder.cardView.setTag(getVideo(position));
         holder.imageView.setImageBitmap(ThumbnailUtils.createVideoThumbnail(getVideoPath(position), MediaStore.Video.Thumbnails.MINI_KIND));
         holder.nameText.setText(getVideo(position).getName());
         holder.lengthText.setText(getVideoLength(position));
-        holder.cardView.setOnClickListener(listener);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onListFragmentInteraction(holder.video);
+            }
+        });
     }
 
     private String getVideoLength(int position) {
@@ -99,6 +99,7 @@ public class StreamingVideoFileAdapter extends RecyclerView.Adapter<StreamingVid
         public CardView cardView;
         public TextView nameText, lengthText;
         public ImageView imageView;
+        public Video video;
 
         public ViewHolder(View v) {
             super(v);

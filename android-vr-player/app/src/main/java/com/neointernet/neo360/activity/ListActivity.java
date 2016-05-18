@@ -6,7 +6,6 @@ package com.neointernet.neo360.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.FileObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import android.view.View;
 
 import com.neointernet.neo360.R;
 import com.neointernet.neo360.adapter.VideoFileAdapter;
+import com.neointernet.neo360.util.MyDownloadManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        folderPath = Environment.getExternalStorageDirectory() + File.separator + "360Videos";
+        folderPath = MyDownloadManager.getStoragePath();
         folder = new File(folderPath);
         Log.i(PATH_TAG, "ListActivity : " + folder.toString());
         Log.i("Folder", "ListActivity : " + folder.getAbsolutePath().toString());
