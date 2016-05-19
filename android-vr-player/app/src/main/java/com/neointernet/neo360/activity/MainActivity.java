@@ -16,24 +16,52 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.login.LoginFragment;
 import com.neointernet.neo360.R;
+import com.neointernet.neo360.fragment.MyPageFragment;
 import com.neointernet.neo360.fragment.UploadFragment;
 import com.neointernet.neo360.fragment.VideoListFragment;
 import com.neointernet.neo360.model.Video;
 import com.neointernet.neo360.util.BackPressCloseHandler;
 import com.neointernet.neo360.util.MyDownloadManager;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VideoListFragment.OnListFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VideoListFragment.OnListFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, MyPageFragment.OnFragmentInteractionListener {
 
     private BackPressCloseHandler backPressCloseHandler;
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawer;
     private MyDownloadManager myDownloadManager;
     private final static String URL = "http://lifejeju99.cafe24.com/";
+    private final static String TAG = "MainActivity";
+
+    private AccessToken accessToken;
+    private AccessTokenTracker accessTokenTracker;
+    private String mem_nick_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        accessToken = (AccessToken) intent.getExtras().get("mem_token");
+        mem_nick_name = intent.getExtras().getString("mem_nick_name");
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                if(currentAccessToken == null){
+                    Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent2);
+                    finish();
+                }
+            }
+        };
+        accessTokenTracker.startTracking();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,8 +124,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_gallery:
                 fragmentClass = UploadFragment.class;
                 break;
+            case R.id.nav_manage:
+                fragmentClass = MyPageFragment.class;
+                break;
             default:
-                fragmentClass = VideoListFragment.class;
+                fragmentClass = LoginFragment.class;
                 break;
         }
 
@@ -136,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onListFragmentInteraction(Video item) {
-        Log.i("MainActivity",item.getName());
+        Log.i("MainActivity", item.getName());
         Intent intent = new Intent(MainActivity.this, VideoActivity.class);
         String path;
         if (myDownloadManager.checkExistFile(item.getName()))
@@ -145,6 +176,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             path = URL;
         intent.putExtra("videopath", path + item.getName());
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
     }
 
     @Override

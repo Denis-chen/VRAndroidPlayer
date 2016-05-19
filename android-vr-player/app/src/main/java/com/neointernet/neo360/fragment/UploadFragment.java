@@ -27,12 +27,16 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class UploadFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "UploadFragment";
+
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        url = "http://lifejeju99.cafe24.com/insert_video.php";
     }
 
     @Override
@@ -44,7 +48,7 @@ public class UploadFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendJson("http://lifejeju99.cafe24.com/insert_video.php");
+                sendJson(url);
             }
         });
         return view;
@@ -150,14 +154,6 @@ public class UploadFragment extends Fragment {
 
         CreateNewProduct createNewProduct = new CreateNewProduct();
         createNewProduct.execute(url);
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
