@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.neointernet.neo360.R;
 
 import org.json.JSONException;
@@ -107,11 +108,6 @@ public class UploadFragment extends Fragment {
 
                         String response = new String(byteData);
 
-//                        JSONObject responseJSON = new JSONObject(response);
-//                        Boolean result = (Boolean) responseJSON.get("result");
-//                        String age = (String) responseJSON.get("age");
-//                        String job = (String) responseJSON.get("job");
-
                         Log.i(TAG, "DATA response = " + response);
                     }
                 } catch (JSONException e) {
@@ -122,21 +118,20 @@ public class UploadFragment extends Fragment {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                finally {
-                    if(is != null)
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if(baos != null)
+                } finally {
+                    if (is != null)
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    if (baos != null)
                         try {
                             baos.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    if(os != null)
+                    if (os != null)
                         try {
                             os.close();
                         } catch (IOException e) {

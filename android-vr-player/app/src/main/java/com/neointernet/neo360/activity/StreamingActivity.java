@@ -11,7 +11,7 @@
 //import com.neointernet.neo360.R;
 //import com.neointernet.neo360.adapter.StreamingVideoFileAdapter;
 //import com.neointernet.neo360.model.Video;
-//import com.neointernet.neo360.util.GetJsonManager;
+//import com.neointernet.neo360.util.VideoJsonManager;
 //import com.neointernet.neo360.util.MyDownloadManager;
 //
 //import java.util.ArrayList;
@@ -37,7 +37,7 @@
 //        setContentView(R.layout.activity_streaming);
 //        myDownloadManager = new MyDownloadManager(getApplicationContext());
 //        loadingProgressDialog = ProgressDialog.show(StreamingActivity.this, "", "잠시만 기다려주세요.", true);
-//        videoArrayList = new GetJsonManager().getVideoArrayList(jsonURL);
+//        videoArrayList = new VideoJsonManager().getVideoArrayList(jsonURL);
 //        showList();
 //    }
 //

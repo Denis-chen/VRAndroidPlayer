@@ -15,10 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
-import com.facebook.login.LoginFragment;
 import com.neointernet.neo360.R;
 import com.neointernet.neo360.fragment.MyPageFragment;
 import com.neointernet.neo360.fragment.UploadFragment;
@@ -37,24 +37,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final static String TAG = "MainActivity";
 
     private AccessToken accessToken;
+    private String mem_nickname;
     private AccessTokenTracker accessTokenTracker;
-    private String mem_nick_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //사용자의 닉네임을 받아옴.
         Intent intent = getIntent();
-        accessToken = (AccessToken) intent.getExtras().get("mem_token");
-        mem_nick_name = intent.getExtras().getString("mem_nick_name");
+        accessToken = AccessToken.getCurrentAccessToken();
+        mem_nickname = intent.getExtras().getString("mem_nickname");
+        Toast.makeText(getApplicationContext(), accessToken.getUserId() + " " + mem_nickname, Toast.LENGTH_LONG).show();
 
+        //현재 토큰을 감시하여 로그인 세션이 끊어지면 로그인 페이지로 이동
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(
                     AccessToken oldAccessToken,
                     AccessToken currentAccessToken) {
-                if(currentAccessToken == null){
-                    Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                if (currentAccessToken == null) {
+                    Intent intent2 = new Intent(MainActivity.this, LoginSplashActivity.class);
                     startActivity(intent2);
                     finish();
                 }
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         accessTokenTracker.startTracking();
 
+        initView();
+    }
+
+    private void initView() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         myDownloadManager = new MyDownloadManager(this);
@@ -91,19 +98,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = MyPageFragment.class;
                 break;
             default:
-                fragmentClass = LoginFragment.class;
+                fragmentClass = MyPageFragment.class;
                 break;
         }
 
@@ -144,14 +146,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.flContent, fragment, null);
         fragmentTransaction.commit();
-
-//        if (id == R.id.nav_camera) {
-//            Intent intent = new Intent(MainActivity.this, StreamingActivity.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_gallery) {
-//            Intent intent = new Intent(MainActivity.this, ListActivity.class);
-//            startActivity(intent);
-//        }
 
         item.setChecked(true);
         setTitle(item.getTitle());

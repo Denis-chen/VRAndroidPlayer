@@ -14,7 +14,7 @@ import com.neointernet.neo360.R;
 import com.neointernet.neo360.adapter.StreamingVideoFileAdapter;
 import com.neointernet.neo360.listener.AsyncTaskListener;
 import com.neointernet.neo360.model.Video;
-import com.neointernet.neo360.util.GetJsonManager;
+import com.neointernet.neo360.util.VideoJsonManager;
 
 import java.util.ArrayList;
 
@@ -27,21 +27,20 @@ import java.util.ArrayList;
 public class VideoListFragment extends Fragment implements AsyncTaskListener {
 
     private OnListFragmentInteractionListener mListener;
-    private static final String jsonURL = "http://lifejeju99.cafe24.com/test2.php";
+    private static final String jsonURL = "http://lifejeju99.cafe24.com/video_list.php";
 
     private ArrayList<Video> videoArrayList;
     private static final String TAG = "VideoListFragment";
 
     private StreamingVideoFileAdapter adapter;
-    private GetJsonManager getJsonManager;
+    private VideoJsonManager videoJsonManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         videoArrayList = new ArrayList<>();
-        getJsonManager = new GetJsonManager(this);
-        getJsonManager.getJSONData(jsonURL);
-        Log.i(TAG, "onCreate");
+        videoJsonManager = new VideoJsonManager();
+        videoJsonManager.makeJsonData(jsonURL, this);
     }
 
     @Override
@@ -51,7 +50,6 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         Log.i(TAG, "onCreateView");
         adapter = new StreamingVideoFileAdapter(mListener, videoArrayList);
-        Log.i(TAG, "view == RecyclerView");
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -81,7 +79,7 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
 
     @Override
     public void asynkTaskFinished() {
-        videoArrayList.addAll(getJsonManager.getVideoArrayList());
+        videoArrayList.addAll(videoJsonManager.getVideoArrayList());
         for(Video video : videoArrayList){
             Log.d(TAG, video.getName());
         }

@@ -13,12 +13,12 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.neointernet.neo360.R;
 
-public class LoginActivity extends Activity {
+public class LoginSplashActivity extends Activity {
 
     private CallbackManager callbackManager;
     private AccessToken accessToken;
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginSplashActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,7 @@ public class LoginActivity extends Activity {
     }
 
     private void intentToMain() {
-        Intent intent = new Intent(LoginActivity.this, SignUpActivitiy.class);
-        intent.putExtra("mem_token", accessToken);
+        Intent intent = new Intent(LoginSplashActivity.this, SignUpActivitiy.class);
         startActivity(intent);
         finish();
     }

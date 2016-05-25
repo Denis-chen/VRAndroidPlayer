@@ -22,29 +22,26 @@ import java.util.HashMap;
 /**
  * Created by HSH on 16. 5. 4..
  */
-public class GetJsonManager {
+public class VideoJsonManager implements JsonManager {
 
     private String jsonData;
 
     private JSONArray jsonArray;
     private static final String TAG_RESULTS = "result";
-    private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_SIZE = "size";
 
-    private static final String TAG = "GetJsonManager";
+    private static final String TAG = "VideoJsonManager";
 
     private ArrayList<HashMap<String, String>> jsonList;
-    private AsyncTaskListener asyncTaskListener;
     private ArrayList<Video> videoArrayList;
+    private String attributeId = "video_id", attributeName = "video_filename", attributeSize = "video_size";
 
-    public GetJsonManager(AsyncTaskListener asyncTaskListener) {
+    public VideoJsonManager() {
         jsonList = new ArrayList<>();
         videoArrayList = new ArrayList<>();
-        this.asyncTaskListener = asyncTaskListener;
     }
 
-    public void getJSONData(String url) {
+    @Override
+    public void makeJsonData(String url, final AsyncTaskListener asyncTaskListener) {
 
         class GetDataJSON extends AsyncTask<String, Void, String> {
             @Override
@@ -104,25 +101,24 @@ public class GetJsonManager {
             JSONObject jsonObj = new JSONObject(jsonData);
             jsonArray = jsonObj.getJSONArray(TAG_RESULTS);
 
+            HashMap<String, String> jsonData = new HashMap<String, String>();
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject c = jsonArray.getJSONObject(i);
-                String id = c.getString(TAG_ID);
-                String name = c.getString(TAG_NAME);
-                String size = c.getString(TAG_SIZE);
-
-                HashMap<String, String> jsonData = new HashMap<String, String>();
-
-                jsonData.put(TAG_ID, id);
-                jsonData.put(TAG_NAME, name);
-                jsonData.put(TAG_SIZE, size);
-
+                String id = c.getString(attributeId);
+                String name = c.getString(attributeName);
+                String size = c.getString(attributeSize);
+                jsonData.put(attributeId, id);
+                jsonData.put(attributeName, name);
+                jsonData.put(attributeSize, size);
                 jsonList.add(jsonData);
             }
 
             for (int i = 0; i < jsonList.size(); i++) {
-                Long id = Long.valueOf(jsonList.get(i).get(TAG_ID));
-                String name = jsonList.get(i).get(TAG_NAME);
-                String size = jsonList.get(i).get(TAG_SIZE);
+
+                Long id = Long.valueOf(jsonList.get(i).get(attributeId));
+                String name = jsonList.get(i).get(attributeName);
+                String size = jsonList.get(i).get(attributeSize);
                 Log.i(TAG, "videoArrayList ADD id : " + id + " name : " + name + " size : " + size);
                 Video video = new Video();
                 video.setId(id);

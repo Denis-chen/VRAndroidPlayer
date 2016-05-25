@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash"
     android:fitsSystemWindows="true"
-    tools:context="com.neointernet.neo360.activity.LoginActivity">
+    tools:context=".activity.LoginSplashActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
