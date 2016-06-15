@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="video_type">
+        <item >엔터테인먼트</item>
+        <item >이벤트</item>
+        <item >익스트림</item>
+        <item >뮤직비디오</item>
+        <item >게임</item>
+        <item >장소</item>
+    </string-array>
+</resources>

@@ -1,8 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.neointernet.neo360.fragment.UploadFragment">
+    tools:context="com.neointernet.onvr.fragment.UploadFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -10,6 +11,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="전송"
-        android:id="@+id/button"
-        android:layout_gravity="left|top" />
-</FrameLayout>
+        android:id="@+id/button"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="제목"
+        android:id="@+id/title_edit"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="des"
+        android:id="@+id/des_edit"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="fileName"
+        android:id="@+id/filename_edit"/>
+</LinearLayout>

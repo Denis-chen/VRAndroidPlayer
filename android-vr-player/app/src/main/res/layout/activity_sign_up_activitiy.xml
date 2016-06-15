@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.neointernet.neo360.activity.SignUpActivitiy">
+    tools:context="com.neointernet.onvr.activity.SignUpActivitiy">
 
     <RelativeLayout
         android:layout_width="match_parent"

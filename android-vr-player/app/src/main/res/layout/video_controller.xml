@@ -4,28 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/video_controller_top">
+        android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="BACK"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/saveVideoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:background="@android:color/transparent"
             android:text="SAVE"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:textColor="#FFFFFF" />
 
     </RelativeLayout>
 
@@ -38,59 +39,61 @@
             android:id="@+id/playBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/stop" />
+            android:src="@drawable/ic_pause_48dp" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
             android:layout_above="@+id/playBtn"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="bottom"
-        android:weightSum="5"
-        android:background="@drawable/video_controller_bottom">
-        <TextView
-            android:layout_width="55dp"
-            android:layout_height="match_parent"
-            android:id="@+id/currentTimeTextView"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"
-            android:textAlignment="center"/>
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/videoSeekBar"
-            android:indeterminate="false"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="5"/>
+        android:orientation="horizontal"
+        android:weightSum="5">
 
         <TextView
+            android:id="@+id/currentTimeTextView"
             android:layout_width="55dp"
             android:layout_height="match_parent"
-            android:id="@+id/finalTimeTextView"
-            android:textColor="#FFFFFF"
             android:layout_gravity="center"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
+
+        <SeekBar
+            android:id="@+id/videoSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="5"
+            android:indeterminate="false" />
+
+        <TextView
+            android:id="@+id/finalTimeTextView"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
 
         <ImageButton
             android:id="@+id/vrBtn"
             android:layout_width="60dp"
             android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/vr_mode"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            android:src="@drawable/vr" />
 
     </LinearLayout>
 

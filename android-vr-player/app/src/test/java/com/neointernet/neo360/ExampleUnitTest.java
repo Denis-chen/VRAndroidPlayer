@@ -1,4 +1,4 @@
-package com.neointernet.neo360;
+package com.neointernet.onvr;
 
 import org.junit.Test;
 
