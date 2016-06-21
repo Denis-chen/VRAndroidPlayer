@@ -60,9 +60,10 @@ public class MemberJsonManager implements JsonManager {
                 String uri = params[0];
 
                 BufferedReader bufferedReader = null;
+                HttpURLConnection con = null;
                 try {
                     java.net.URL url = new URL(uri);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
 
                     bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -83,6 +84,12 @@ public class MemberJsonManager implements JsonManager {
                         try {
                             bufferedReader.close();
                         } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    if (con != null)
+                        try {
+                            con.disconnect();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                 }
