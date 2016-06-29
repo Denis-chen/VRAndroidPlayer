@@ -5,30 +5,41 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="ON VR" />
+            android:title="홈" />
         <item
             android:id="@+id/nav_mypage"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="MyPage" />
-        <!--<item-->
-            <!--android:id="@+id/nav_gallery"-->
-            <!--android:icon="@drawable/ic_menu_gallery"-->
-            <!--android:title="UploadTest" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/nav_send"-->
-            <!--android:icon="@drawable/ic_menu_send"-->
-            <!--android:title="Send" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/nav_share"-->
-            <!--android:icon="@drawable/ic_menu_share"-->
-            <!--android:title="Share" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/nav_slideshow"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="SlideShow" />-->
+            android:title="마이페이지" />
+        <item android:title="분류">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_entertainment"
+                        android:icon="@drawable/ic_sync_black_24dp"
+                        android:title="엔터테인먼트" />
+                    <item
+                        android:id="@+id/nav_event"
+                        android:icon="@drawable/ic_radio_button_on_48dp"
+                        android:title="이벤트" />
+                    <item
+                        android:id="@+id/nav_extreme"
+                        android:icon="@drawable/ic_menu_camera"
+                        android:title="익스트림" />
+                    <item
+                        android:id="@+id/nav_musicvideo"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="뮤직비디오" />
+                    <item
+                        android:id="@+id/nav_game"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="게임" />
+                    <item
+                        android:id="@+id/nav_location"
+                        android:icon="@drawable/ic_info_black_24dp"
+                        android:title="장소" />
+                </group>
+            </menu>
+        </item>
     </group>
 
 </menu>

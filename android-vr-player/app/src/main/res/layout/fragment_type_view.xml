@@ -15,6 +15,4 @@
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/video_row" />
 
-    <include layout="@layout/fragment_my_page_content" />
-
 </RelativeLayout>

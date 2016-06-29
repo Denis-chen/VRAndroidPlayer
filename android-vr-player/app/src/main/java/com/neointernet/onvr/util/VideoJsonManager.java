@@ -48,7 +48,7 @@ public class VideoJsonManager {
         progressDialog = new ProgressDialog(context);
     }
 
-    public void makeJsonData(final int start, final int quantity) {
+    public void makeJsonData(final String url) {
 
         class GetDataJSON extends AsyncTask<String, Void, String> {
             @Override
@@ -61,7 +61,7 @@ public class VideoJsonManager {
 
             @Override
             protected String doInBackground(String... params) {
-                String uri = "http://lifejeju99.cafe24.com/video_list.php?start=" + start + "&quantitiy=" + quantity;
+                String uri = url;
 
                 BufferedReader bufferedReader = null;
                 try {
@@ -97,6 +97,7 @@ public class VideoJsonManager {
             @Override
             protected void onPostExecute(String result) {
                 jsonData = result;
+                Log.d(TAG, jsonData);
                 makeCollectionJson();
                 asyncTaskListener.asynkTaskFinished();
                 if (progressDialog != null)

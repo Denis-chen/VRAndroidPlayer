@@ -22,7 +22,8 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.login.LoginManager;
 import com.neointernet.onvr.R;
 import com.neointernet.onvr.fragment.MyPageFragment;
-import com.neointernet.onvr.fragment.UploadFragment;
+import com.neointernet.onvr.fragment.OnListFragmentInteractionListener;
+import com.neointernet.onvr.fragment.TypeViewFragment;
 import com.neointernet.onvr.fragment.VideoListFragment;
 import com.neointernet.onvr.model.Video;
 import com.neointernet.onvr.util.BackPressCloseHandler;
@@ -35,7 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        VideoListFragment.OnListFragmentInteractionListener {
+        OnListFragmentInteractionListener {
 
     private BackPressCloseHandler backPressCloseHandler;
     private ActionBarDrawerToggle toggle;
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
 
         Fragment fragment = null;
+        Bundle bundle = new Bundle();
+        ;
         Class fragmentClass;
         switch (item.getItemId()) {
             case R.id.nav_home:
@@ -134,13 +137,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_mypage:
                 fragmentClass = MyPageFragment.class;
                 break;
-            default:
-                fragmentClass = UploadFragment.class;
+            case R.id.nav_entertainment:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "entertainment");
                 break;
+            case R.id.nav_event:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "event");
+                break;
+            case R.id.nav_extreme:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "extreme");
+                break;
+            case R.id.nav_musicvideo:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "musicvideo");
+                break;
+            case R.id.nav_game:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "game");
+                break;
+            case R.id.nav_location:
+                fragmentClass = TypeViewFragment.class;
+                bundle.putSerializable("type", "location");
+                break;
+            default:
+                fragmentClass = TypeViewFragment.class;
         }
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            fragment.setArguments(bundle);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 HttpURLConnection conn = null;
                 try {
-                    java.net.URL url = new java.net.URL(uri+"?video_id="+videoId);
+                    java.net.URL url = new java.net.URL(uri + "?video_id=" + videoId);
                     conn = (HttpURLConnection) url.openConnection();
 
                     int responseCode = conn.getResponseCode();

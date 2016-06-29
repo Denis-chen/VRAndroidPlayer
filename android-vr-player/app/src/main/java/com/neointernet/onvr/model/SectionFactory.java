@@ -11,12 +11,12 @@ public class SectionFactory {
 
     public SectionFactory() {
         sectionArrayList = new ArrayList<>();
-        sectionArrayList.add(new Section("엔터테인먼트", 1));
-        sectionArrayList.add(new Section("이벤트", 4));
-        sectionArrayList.add(new Section("익스트림", 7));
-        sectionArrayList.add(new Section("뮤직비디오", 10));
-        sectionArrayList.add(new Section("게임", 13));
-        sectionArrayList.add(new Section("장소", 16));
+        sectionArrayList.add(new Section("entertainment", 1, "엔터테인먼트"));
+        sectionArrayList.add(new Section("event", 4, "이벤트"));
+        sectionArrayList.add(new Section("extreme", 7, "익스트림"));
+        sectionArrayList.add(new Section("musicvideo", 10, "뮤직비디오"));
+        sectionArrayList.add(new Section("game", 13, "게임"));
+        sectionArrayList.add(new Section("location", 16, "장소"));
     }
 
     public ArrayList<Section> getSectionArrayList() {

@@ -52,7 +52,7 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
         videoArrayList = new ArrayList<>();
         sectionArrayList = new ArrayList<>();
         videoJsonManager = new VideoJsonManager(this, getActivity());
-        videoJsonManager.makeJsonData(0, 15);
+        videoJsonManager.makeJsonData("http://lifejeju99.cafe24.com/video_list.php?start=" + 0 + "&quantity=" + 20);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
     public Header getHeader() {
         Header header = new Header();
         header.setHeader("인피니트 뮤직비디오");
-        header.setPath("http://lifejeju99.cafe24.com/videos/infinite.png");
+        header.setPath("videos/infinite.png");
         return header;
     }
 
@@ -123,9 +123,5 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
     public void asynkTaskFinished() {
         videoArrayList.addAll(videoJsonManager.getVideoArrayList());
         adapter.notifyDataSetChanged();
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Video item);
     }
 }

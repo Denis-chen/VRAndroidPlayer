@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp">
+    android:layout_marginRight="16dp"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
@@ -18,13 +18,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/video_image"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/common_ic_googleplayservices" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/video_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:layout_marginBottom="10dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/common_ic_googleplayservices" />
+
+                <TextView
+                    android:id="@+id/video_durations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/video_image"
+                    android:layout_alignBottom="@+id/video_image"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:text="duration"
+                    android:background="#222222"
+                    android:textColor="#dddddd" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/video_title_text"
@@ -35,7 +56,7 @@
                 android:layout_marginRight="20dp"
                 android:text="Name"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#000000" />
+                android:textColor="@color/colorGrayTitle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,6 +98,8 @@
                     android:id="@+id/video_date_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="날짜" />
 
 
