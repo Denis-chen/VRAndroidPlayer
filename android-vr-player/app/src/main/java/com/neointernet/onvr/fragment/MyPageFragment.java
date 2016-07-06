@@ -50,7 +50,7 @@ public class MyPageFragment extends Fragment implements AsyncTaskListener {
         View view = inflater.inflate(R.layout.fragment_my_page, container, false);
         Context context = view.getContext();
 
-        adapter = new StreamingVideoFileAdapter(mListener, videoArrayList);
+        adapter = new StreamingVideoFileAdapter(getContext(), videoArrayList);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.mypage_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
@@ -70,24 +70,4 @@ public class MyPageFragment extends Fragment implements AsyncTaskListener {
         videoArrayList.addAll(videoJsonManager.getVideoArrayList());
         adapter.notifyDataSetChanged();
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-        if (context instanceof OnListFragmentInteractionListener) {
-            Log.i(TAG, "context == OnListFramentInteractionListener");
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
 }

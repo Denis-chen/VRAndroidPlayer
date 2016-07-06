@@ -17,4 +17,6 @@
     <string name="title_activity_sign_up_activitiy">SignUpActivitiy</string>
     <string name="nick_name_hint">Nick Name</string>
     <string name="err_msg_name">Nick Name Length must be over 4 length</string>
+    <string name="action_search">search</string>
+    <string name="action_submit">제출</string>
 </resources>

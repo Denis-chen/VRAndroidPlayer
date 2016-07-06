@@ -1,7 +1,6 @@
 package com.neointernet.onvr.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,9 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,28 +18,16 @@ import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.login.LoginManager;
 import com.neointernet.onvr.R;
+import com.neointernet.onvr.fragment.HomeFragment;
 import com.neointernet.onvr.fragment.MyPageFragment;
-import com.neointernet.onvr.fragment.OnListFragmentInteractionListener;
-import com.neointernet.onvr.fragment.TypeViewFragment;
-import com.neointernet.onvr.fragment.VideoListFragment;
-import com.neointernet.onvr.model.Video;
+import com.neointernet.onvr.fragment.VideoListViewFragment;
 import com.neointernet.onvr.util.BackPressCloseHandler;
-import com.neointernet.onvr.util.MyDownloadManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        OnListFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private BackPressCloseHandler backPressCloseHandler;
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawer;
-    private MyDownloadManager myDownloadManager;
-    private final static String URL = "http://lifejeju99.cafe24.com/videos/";
 
     private AccessToken accessToken;
     private String mem_nickname;
@@ -92,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-        myDownloadManager = new MyDownloadManager(this);
     }
 
     @Override
@@ -114,8 +98,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_logout) {
+        if (id == R.id.action_settings) {
             LoginManager.getInstance().logOut();
+            return true;
+        } else if (id == R.id.action_search) {
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -128,41 +116,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment = null;
         Bundle bundle = new Bundle();
-        ;
+        bundle.putSerializable("type", "type");
         Class fragmentClass;
         switch (item.getItemId()) {
             case R.id.nav_home:
-                fragmentClass = VideoListFragment.class;
+                fragmentClass = HomeFragment.class;
                 break;
             case R.id.nav_mypage:
                 fragmentClass = MyPageFragment.class;
                 break;
             case R.id.nav_entertainment:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "entertainment");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "entertainment");
                 break;
             case R.id.nav_event:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "event");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "event");
                 break;
             case R.id.nav_extreme:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "extreme");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "extreme");
                 break;
             case R.id.nav_musicvideo:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "musicvideo");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "musicvideo");
                 break;
             case R.id.nav_game:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "game");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "game");
                 break;
             case R.id.nav_location:
-                fragmentClass = TypeViewFragment.class;
-                bundle.putSerializable("type", "location");
+                fragmentClass = VideoListViewFragment.class;
+                bundle.putSerializable("value", "location");
                 break;
             default:
-                fragmentClass = TypeViewFragment.class;
+                fragmentClass = VideoListViewFragment.class;
         }
 
         try {
@@ -191,72 +179,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    @Override
-    public void onListFragmentInteraction(Video item) {
-        Intent intent = new Intent(MainActivity.this, VideoActivity.class);
-        String path;
-        if (myDownloadManager.checkExistFile(item.getVideoFilename()))
-            path = myDownloadManager.getStoragePath();
-        else
-            path = URL;
-        intent.putExtra("videopath", path + item.getVideoFilename());
-        intent.putExtra("videoTitle", item.getVideoTitle());
-        sendHits("http://lifejeju99.cafe24.com/video_hit_increment.php", item.getVideoId());
-        startActivity(intent);
-    }
-
-    private void sendHits(String uri, long videoId) {
-
-        class SendData extends AsyncTask<String, Void, String> {
-
-            private String TAG = "SendDataClass";
-
-            @Override
-            protected String doInBackground(String... strings) {
-
-                String uri = strings[0];
-                String videoId = strings[1];
-
-                HttpURLConnection conn = null;
-                try {
-                    java.net.URL url = new java.net.URL(uri + "?video_id=" + videoId);
-                    conn = (HttpURLConnection) url.openConnection();
-
-                    int responseCode = conn.getResponseCode();
-                    Log.d(TAG, "Response Code : " + responseCode);
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    Log.d(TAG, response.toString());
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (conn != null)
-                        try {
-                            conn.disconnect();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                }
-                return null;
-            }
-        }
-
-        SendData sendData = new SendData();
-        sendData.execute(uri, String.valueOf(videoId));
-
-    }
 
     @Override
     protected void onDestroy() {

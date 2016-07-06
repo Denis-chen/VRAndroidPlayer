@@ -63,12 +63,13 @@
         <activity
             android:name=".activity.SignUpActivitiy"
             android:label="@string/title_activity_sign_up_activitiy"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.UploadVideoActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.BaseActivity"></activity>
     </application>
 
 </manifest>

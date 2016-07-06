@@ -1,11 +1,9 @@
 package com.neointernet.onvr.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +25,13 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class VideoListFragment extends Fragment implements AsyncTaskListener {
+public class HomeFragment extends Fragment implements AsyncTaskListener {
 
-    private OnListFragmentInteractionListener mListener;
+    private static final String TAG = "HomeFragment";
     private String jsonURL = "http://lifejeju99.cafe24.com/video_list.php";
 
     private ArrayList<Video> videoArrayList;
     private ArrayList<Section> sectionArrayList;
-    private static final String TAG = "VideoListFragment";
 
     private StreamingVideoFileAdapter adapter;
     private VideoJsonManager videoJsonManager;
@@ -62,7 +59,7 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         sectionArrayList.addAll(new SectionFactory().getSectionArrayList());
-        adapter = new StreamingVideoFileAdapter(mListener, videoArrayList, getHeader(), sectionArrayList);
+        adapter = new StreamingVideoFileAdapter(getContext(), videoArrayList, getHeader(), sectionArrayList);
 
         recyclerView = (RecyclerView) view;
         layoutManager = new LinearLayoutManager(getActivity());
@@ -91,26 +88,6 @@ public class VideoListFragment extends Fragment implements AsyncTaskListener {
 
         return view;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-        if (context instanceof OnListFragmentInteractionListener) {
-            Log.i(TAG, "context == OnListFramentInteractionListener");
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
 
     public Header getHeader() {
         Header header = new Header();

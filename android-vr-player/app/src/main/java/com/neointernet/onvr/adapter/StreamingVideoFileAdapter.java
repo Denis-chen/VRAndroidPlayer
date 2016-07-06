@@ -1,5 +1,6 @@
 package com.neointernet.onvr.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.neointernet.onvr.R;
+import com.neointernet.onvr.activity.BaseActivity;
 import com.neointernet.onvr.fragment.OnListFragmentInteractionListener;
 import com.neointernet.onvr.model.Header;
 import com.neointernet.onvr.model.Section;
@@ -35,15 +37,17 @@ public class StreamingVideoFileAdapter extends RecyclerView.Adapter<RecyclerView
 
     private Header header;
 
-    public StreamingVideoFileAdapter(OnListFragmentInteractionListener listener, ArrayList<Video> videos, Header header, ArrayList<Section> sections) {
-        this.listener = listener;
+    public StreamingVideoFileAdapter(Context context, ArrayList<Video> videos, Header header, ArrayList<Section> sections) {
+        BaseActivity activity = (BaseActivity) context;
+        listener = activity;
         this.videos = videos;
         this.header = header;
         this.sections = sections;
     }
 
-    public StreamingVideoFileAdapter(OnListFragmentInteractionListener mListener, ArrayList<Video> videos) {
-        this.listener = mListener;
+    public StreamingVideoFileAdapter(Context context, ArrayList<Video> videos) {
+        BaseActivity activity = (BaseActivity) context;
+        listener = activity;
         this.videos = videos;
         this.sections = new ArrayList<>();
     }

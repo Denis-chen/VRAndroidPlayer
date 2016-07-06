@@ -15,10 +15,10 @@
 //public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 //
 //    private final List<Video> mValues;
-//    private final VideoListFragment.OnListFragmentInteractionListener mListener;
+//    private final HomeFragment.OnListFragmentInteractionListener mListener;
 //    private final static String TAG = "MyItemRecyclerAdapter";
 //
-//    public MyItemRecyclerViewAdapter(List<Video> items, VideoListFragment.OnListFragmentInteractionListener listener) {
+//    public MyItemRecyclerViewAdapter(List<Video> items, HomeFragment.OnListFragmentInteractionListener listener) {
 //        mValues = items;
 //        mListener = listener;
 //    }
